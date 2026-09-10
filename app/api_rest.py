@@ -19,7 +19,7 @@ from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 
 from app.modelo import carregar_modelo
-from app.fila import enfileirar
+from app.fila import enfileirar, buscar_resultado
 
 app = FastAPI(title="Servico de Inferencia - C1.A2", version="0.1.0")
 
@@ -77,8 +77,11 @@ def predict(entrada: Entrada):
 # ------------------------------------------------------------------
 # TAREFA 2 - consulta do resultado
 # ------------------------------------------------------------------
-# @app.get("/resultado/{tarefa_id}")
-# def resultado(tarefa_id: str):
-#     """Deve devolver o resultado; 404 se o id nao existir."""
-#     # DICA: use app.fila.buscar_resultado(tarefa_id)
-#     raise NotImplementedError("implemente a consulta de resultado")
+@app.get("/resultado/{tarefa_id}")
+def resultado(tarefa_id: str):
+     """Deve devolver o resultado; 404 se o id nao existir."""
+     res = buscar_resultado(tarefa_id)
+
+     if res is None: 
+         raise HTTPException(status_code=404, detail="tarefa nao encontrada")
+     return res

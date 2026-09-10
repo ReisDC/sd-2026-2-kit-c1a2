@@ -8,7 +8,7 @@ Marque conforme for concluindo. Cada item aponta o arquivo e a aula de referenci
       Criar `POST /predict` que enfileira a tarefa e devolve `{"id": ...}` com status 202,
       SEM esperar a inferencia terminar. (Aula 8)
 
-- [ ] **2. Consulta de resultado** - `app/api_rest.py`
+- [X] **2. Consulta de resultado** - `app/api_rest.py`
       Criar `GET /resultado/{id}` que devolve o resultado, ou 404 se o id nao existir. (Aula 5)
 
 - [ ] **3. Worker grava o resultado** - `app/worker.py`
