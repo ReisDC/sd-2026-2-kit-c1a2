@@ -4,7 +4,7 @@ Marque conforme for concluindo. Cada item aponta o arquivo e a aula de referenci
 
 ## Nucleo obrigatorio (e o que define a nota)
 
-- [ ] **1. Submissao assincrona** - `app/api_rest.py`
+- [X] **1. Submissao assincrona** - `app/api_rest.py`
       Criar `POST /predict` que enfileira a tarefa e devolve `{"id": ...}` com status 202,
       SEM esperar a inferencia terminar. (Aula 8)
 

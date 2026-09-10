@@ -13,11 +13,13 @@ Rodar:  uvicorn app.api_rest:app --reload --port 8000
 Docs:   http://localhost:8000/docs
 """
 import time
+import uuid
 
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 
 from app.modelo import carregar_modelo
+from app.fila import enfileirar
 
 app = FastAPI(title="Servico de Inferencia - C1.A2", version="0.1.0")
 
@@ -56,11 +58,20 @@ def predict_sync(entrada: Entrada):
 # ------------------------------------------------------------------
 # TAREFA 1 - submissao assincrona
 # ------------------------------------------------------------------
-# @app.post("/predict", status_code=202)
-# def predict(entrada: Entrada):
-#     """Deve enfileirar a tarefa e devolver {"id": ...} SEM esperar."""
-#     # DICA: use app.fila.enfileirar(entrada.texto)
-#     raise NotImplementedError("implemente a submissao assincrona")
+@app.post("/predict", status_code=202)
+def predict(entrada: Entrada):
+     """Deve enfileirar a tarefa e devolver {"id": ...} SEM esperar."""
+     if not entrada.texto.strip():
+         raise HTTPException(status_code=400, detail="texto vazio")
+
+     # Gera um ID único para a tarefa
+     tarefa_id = str(uuid.uuid4())
+
+     # Enfileira no broker sem precessar a IA por agora
+     enfileirar(tarefa_id, entrada.texto)
+
+     # Retorna imediatamente com o ID e status HTTP 202
+     return {"id": tarefa_id}
 
 
 # ------------------------------------------------------------------
