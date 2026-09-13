@@ -11,7 +11,7 @@ Marque conforme for concluindo. Cada item aponta o arquivo e a aula de referenci
 - [X] **2. Consulta de resultado** - `app/api_rest.py`
       Criar `GET /resultado/{id}` que devolve o resultado, ou 404 se o id nao existir. (Aula 5)
 
-- [ ] **3. Worker grava o resultado** - `app/worker.py`
+- [X] **3. Worker grava o resultado** - `app/worker.py`
       Substituir o `raise NotImplementedError` por `fila.guardar_resultado(...)`. (Aula 8)
 
 - [ ] **4. Metodo gRPC PreverLote** - `app/servidor_grpc.py` + `proto/inferencia.proto`
