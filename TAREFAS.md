@@ -14,7 +14,7 @@ Marque conforme for concluindo. Cada item aponta o arquivo e a aula de referenci
 - [X] **3. Worker grava o resultado** - `app/worker.py`
       Substituir o `raise NotImplementedError` por `fila.guardar_resultado(...)`. (Aula 8)
 
-- [ ] **4. Metodo gRPC PreverLote** - `app/servidor_grpc.py` + `proto/inferencia.proto`
+- [X] **4. Metodo gRPC PreverLote** - `app/servidor_grpc.py` + `proto/inferencia.proto`
       Implementar o metodo que recebe varios textos e devolve varias respostas. (Aula 4)
 
 - [ ] **5. Tratamento de erro** - `app/worker.py`
