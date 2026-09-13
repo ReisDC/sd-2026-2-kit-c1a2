@@ -17,7 +17,7 @@ Marque conforme for concluindo. Cada item aponta o arquivo e a aula de referenci
 - [X] **4. Metodo gRPC PreverLote** - `app/servidor_grpc.py` + `proto/inferencia.proto`
       Implementar o metodo que recebe varios textos e devolve varias respostas. (Aula 4)
 
-- [ ] **5. Tratamento de erro** - `app/worker.py`
+- [X] **5. Tratamento de erro** - `app/worker.py`
       Retentativa em caso de falha e, apos 3 tentativas, mandar para uma fila de
       descarte (dead-letter). (Aula 8)
 
