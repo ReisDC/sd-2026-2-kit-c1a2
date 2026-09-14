@@ -100,12 +100,10 @@ Encerre cada processo com `Ctrl+C`. Para derrubar o Redis: `docker compose down`
 
 ### FAQ: "pip install" travou compilando pacote (Linux, macOS ou Windows)
 
-Este projeto foi testado com **Python 3.12**. Se o `python` do seu sistema for
-outra versão (ex. 3.13, comum em distros Linux recentes, mas pode acontecer
-em qualquer sistema operacional), o `pip install` pode não encontrar wheel
-pré-compilado para `scikit-learn`/`numpy` naquela versão/plataforma e tentar
-compilar tudo do zero a partir do código-fonte — o que é lento e pode falhar
-por falta de compilador/headers (em qualquer SO).
+Este projeto **exige Python 3.12** — não é só recomendado, versões mais novas ainda não têm wheel pré-compilado
+para `scikit-learn`/`numpy` nas versões fixadas em `requirements.txt`. Nesse
+caso o `pip` tenta compilar tudo do zero a partir do código-fonte, o que é
+lento e normalmente falha por falta de compilador/headers.
 
 Se você não tem Python 3.12 instalado (ou não sabe qual versão tem), use o
 [uv](https://docs.astral.sh/uv/) para baixar o 3.12 e criar o venv com ele,
@@ -223,7 +221,8 @@ sd-2026-2-kit-c1a2/
 
 ## Requisitos
 
-- Python 3.12+
+- Python 3.12 (versões mais novas, como 3.13/3.14, não são garantidas — veja
+  o FAQ em "Como executar do zero" caso não tenha o 3.12 disponível)
 - Docker (para o Redis via `docker-compose.yml`)
 
 Tudo roda 100% offline — o modelo é treinado localmente na primeira execução
