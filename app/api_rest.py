@@ -13,7 +13,6 @@ Rodar:  uvicorn app.api_rest:app --reload --port 8000
 Docs:   http://localhost:8000/docs
 """
 import time
-import uuid
 
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
@@ -64,11 +63,8 @@ def predict(entrada: Entrada):
      if not entrada.texto.strip():
          raise HTTPException(status_code=400, detail="texto vazio")
 
-     # Gera um ID único para a tarefa
-     tarefa_id = str(uuid.uuid4())
-
-     # Enfileira no broker sem precessar a IA por agora
-     enfileirar(tarefa_id, entrada.texto)
+     # Enfileira no broker sem processar a IA agora; fila.enfileirar gera o id
+     tarefa_id = enfileirar(entrada.texto)
 
      # Retorna imediatamente com o ID e status HTTP 202
      return {"id": tarefa_id}
