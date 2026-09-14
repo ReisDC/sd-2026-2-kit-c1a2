@@ -24,7 +24,7 @@ Marque conforme for concluindo. Cada item aponta o arquivo e a aula de referenci
 - [X] **6. Log de requisicoes** - todos os servicos
       Registrar cada requisicao recebida (id, tamanho da entrada, tempo de resposta).
 
-- [ ] **7. README proprio**
+- [X] **7. README proprio**
       Reescrever o README explicando SUA arquitetura e como executar do zero.
 
 ## Extensoes opcionais (nao valem nota extra)
@@ -36,7 +36,7 @@ Marque conforme for concluindo. Cada item aponta o arquivo e a aula de referenci
 
 ## Antes de entregar
 
-- [ ] Apague a pasta, clone do zero e siga o SEU README - funciona?
-- [ ] As duas interfaces (REST e gRPC) devolvem o mesmo resultado para o mesmo texto?
-- [ ] O modelo e carregado UMA vez (e nao a cada requisicao)?
-- [ ] Ha commits ao longo do periodo (e nao um unico commit no final)?
+- [X] Apague a pasta, clone do zero e siga o SEU README - funciona?
+- [X] As duas interfaces (REST e gRPC) devolvem o mesmo resultado para o mesmo texto?
+- [X] O modelo e carregado UMA vez (e nao a cada requisicao)?
+- [X] Ha commits ao longo do periodo (e nao um unico commit no final)?
