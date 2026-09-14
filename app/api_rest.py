@@ -12,17 +12,41 @@ O QUE VOCE PRECISA FAZER (TAREFAS.md, itens 1 e 2):
 Rodar:  uvicorn app.api_rest:app --reload --port 8000
 Docs:   http://localhost:8000/docs
 """
+import logging
 import time
+import uuid
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Request
 from pydantic import BaseModel
 
 from app.modelo import carregar_modelo
 from app.fila import enfileirar, buscar_resultado
 
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
+logger = logging.getLogger("api_rest")
+
 app = FastAPI(title="Servico de Inferencia - C1.A2", version="0.1.0")
 
 modelo = None
+
+
+# ------------------------------------------------------------------
+# TAREFA 6 - log de requisicoes (id, tamanho da entrada, tempo de resposta)
+# ------------------------------------------------------------------
+@app.middleware("http")
+async def log_requisicoes(request: Request, call_next):
+    requisicao_id = str(uuid.uuid4())
+    tamanho_entrada = int(request.headers.get("content-length") or 0)
+    inicio = time.time()
+    response = await call_next(request)
+    tempo_ms = round((time.time() - inicio) * 1000, 2)
+    logger.info(
+        "id=%s metodo=%s rota=%s tamanho_entrada=%dB status=%d tempo_ms=%s",
+        requisicao_id, request.method, request.url.path,
+        tamanho_entrada, response.status_code, tempo_ms,
+    )
+    response.headers["X-Request-ID"] = requisicao_id
+    return response
 
 
 class Entrada(BaseModel):

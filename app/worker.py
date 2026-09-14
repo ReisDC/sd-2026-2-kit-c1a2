@@ -3,6 +3,7 @@
 Rodar: python -m app.worker
 """
 import json
+import logging
 import time
 
 from app import fila
@@ -11,18 +12,29 @@ from app.modelo import carregar_modelo
 MAX_TENTATIVAS = 3
 FILA_DESCARTE = "tarefas:descarte"
 
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
+logger = logging.getLogger("worker")
+
 
 def processar_tarefa(tarefa, modelo):
     tentativa = tarefa.get("tentativas", 0) + 1
     tarefa["tentativas"] = tentativa
     tarefa_id = tarefa["id"]
-    print(f"[worker] processando {tarefa_id}, tentativa {tentativa}")
+    tamanho_entrada = len(tarefa["texto"])
+    logger.info(
+        "id=%s tamanho_entrada=%d tentativa=%d - processando",
+        tarefa_id, tamanho_entrada, tentativa,
+    )
     inicio = time.time()
 
     try:
         resultado = modelo.prever(tarefa["texto"])
     except Exception as erro:
-        print(f"[worker] ERRO em {tarefa_id}: {erro}")
+        tempo_ms = round((time.time() - inicio) * 1000, 2)
+        logger.error(
+            "id=%s tamanho_entrada=%d tentativa=%d tempo_ms=%s - erro: %s",
+            tarefa_id, tamanho_entrada, tentativa, tempo_ms, erro,
+        )
         tarefa["ultimo_erro"] = str(erro)
 
         if tentativa < MAX_TENTATIVAS:
@@ -43,21 +55,26 @@ def processar_tarefa(tarefa, modelo):
             transacao.execute()
 
         if destino == FILA_DESCARTE:
-            print(f"[worker] tarefa {tarefa_id} enviada para descarte")
+            logger.warning("id=%s - enviada para descarte", tarefa_id)
         else:
-            print(f"[worker] tarefa {tarefa_id} reenfileirada")
+            logger.info("id=%s - reenfileirada", tarefa_id)
         return
 
+    tempo_ms = round((time.time() - inicio) * 1000, 2)
     resultado["status"] = "pronto"
     resultado["tentativas"] = tentativa
-    resultado["tempo_ms"] = round((time.time() - inicio) * 1000, 2)
+    resultado["tempo_ms"] = tempo_ms
     fila.guardar_resultado(tarefa_id, resultado)
+    logger.info(
+        "id=%s tamanho_entrada=%d tentativa=%d tempo_ms=%s - concluida",
+        tarefa_id, tamanho_entrada, tentativa, tempo_ms,
+    )
 
 
 def main():
-    print("[worker] carregando modelo...")
+    logger.info("carregando modelo...")
     modelo = carregar_modelo()
-    print("[worker] pronto. aguardando tarefas (Ctrl+C para sair)")
+    logger.info("pronto. aguardando tarefas (Ctrl+C para sair)")
 
     while True:
         tarefa = fila.proxima_tarefa(timeout=5)

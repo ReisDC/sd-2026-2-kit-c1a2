@@ -21,7 +21,7 @@ Marque conforme for concluindo. Cada item aponta o arquivo e a aula de referenci
       Retentativa em caso de falha e, apos 3 tentativas, mandar para uma fila de
       descarte (dead-letter). (Aula 8)
 
-- [ ] **6. Log de requisicoes** - todos os servicos
+- [X] **6. Log de requisicoes** - todos os servicos
       Registrar cada requisicao recebida (id, tamanho da entrada, tempo de resposta).
 
 - [ ] **7. README proprio**
