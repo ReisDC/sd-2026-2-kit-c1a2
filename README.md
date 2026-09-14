@@ -164,16 +164,10 @@ python exemplos/cliente_rest.py "o atendimento foi otimo"
 ### gRPC
 
 Use qualquer cliente gRPC (ex. [grpcurl](https://github.com/fullstorydev/grpcurl))
-ou um cliente Python simples com os stubs gerados no passo 5:
+ou o cliente pronto:
 
-```python
-import grpc, inferencia_pb2, inferencia_pb2_grpc
-
-canal = grpc.insecure_channel("localhost:50051")
-stub = inferencia_pb2_grpc.InferenciaStub(canal)
-
-print(stub.Prever(inferencia_pb2.PedidoPrever(texto="muito bom")))
-print(stub.PreverLote(inferencia_pb2.PedidoLote(textos=["muito bom", "pessimo"])))
+```bash
+python exemplos/cliente_grpc.py "muito bom"
 ```
 
 ## Resiliência
@@ -214,6 +208,7 @@ sd-2026-2-kit-c1a2/
 │   └── servidor_grpc.py    # interface gRPC (Prever e PreverLote)
 ├── proto/inferencia.proto  # contrato gRPC
 ├── exemplos/cliente_rest.py
+├── exemplos/cliente_grpc.py
 ├── scripts/gerar_stubs.*   # atalhos para gerar os stubs do gRPC
 ├── docker-compose.yml      # sobe o Redis
 └── requirements.txt
